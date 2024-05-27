@@ -32,7 +32,7 @@ function pricePropertyIsValid(req, res, next){
         message: `price must have an integer greater than 0`
     });
 }
-
+ 
 
 //POST "/dishes"
 function create(req, res, next){
@@ -48,9 +48,15 @@ function create(req, res, next){
     res.status(201).json({data: newDish});
 }
 
-//GET "/dishes"
+//GET "/dishes" list function
+function list(req, res){
+    res.json({data: dishes});
+}
 
-//GET "/dishes/:dishId"
+//GET "/dishes/:dishId" read function
+function read(req, res, next){
+    
+}
 
 //POST "/dishes/:dishId"
 
@@ -62,5 +68,6 @@ module.exports = {
         bodyDataHas("image_url"),
         pricePropertyIsValid,
         create
-    ]
+    ],
+    list
 }
