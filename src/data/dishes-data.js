@@ -24,4 +24,12 @@ module.exports = [
     image_url:
       "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?h=530&w=350",
   },
+  {
+    id: "0dd19e96e69fc11b3d0be0a0e6c8cc82",
+    name: "pizza",
+    description: "pizza",
+    price: 6,
+    image_url:
+      "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?h=530&w=350",
+  }
 ];

@@ -33,12 +33,36 @@ function pricePropertyIsValid(req, res, next){
     });
 }
  
+function dishExists(req, res, next){
+    const { dishId } = req.params;
+    const foundDish = dishes.find((dish) => dish.id == dishId);
+    if(foundDish){
+        res.locals.dish = foundDish;
+        next();
+    }
+    next({
+        status: 404,
+        message: `Dish does not exist: ${dishId}, ${foundDish}`
+    });
+}
+
+function idMatchesRoute(req, res, next){
+    const { dishId } = req.params;
+    const { data: id } = req.body;
+    if(id && dishId !== id){
+        return next({
+            status: 404,
+            message: `Dish id does not match route id. Dish: ${id}, Route: ${dishId}`
+        });
+    }
+    next();
+}
 
 //POST "/dishes"
 function create(req, res, next){
     const { data: {name, description, price, image_url}} = req.body;
     const newDish = {
-        id: nextId(),
+        "id": nextId(),
         name,
         description,
         price,
@@ -55,10 +79,10 @@ function list(req, res){
 
 //GET "/dishes/:dishId" read function
 function read(req, res, next){
-    
+    res.json({data: res.locals.dish});
 }
 
-//POST "/dishes/:dishId"
+//PUT "/dishes/:dishId"
 
 module.exports = {
     create: [
@@ -69,5 +93,10 @@ module.exports = {
         pricePropertyIsValid,
         create
     ],
-    list
+    list,
+    read: [
+        idMatchesRoute,
+        dishExists,
+        read
+    ]
 }
