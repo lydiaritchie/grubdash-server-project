@@ -109,9 +109,8 @@ function read(req, res, next) {
 
 //PUT "/orders/:orderId"
 function update(req, res, next){
-  const { orderId } = req.params;
   const { deliverTo, mobileNumber, status, dishes } = req.body.data;
-  const newOrder = { id: orderId, deliverTo, mobileNumber, status, dishes };
+  const newOrder = { id: res.locals.order.id, deliverTo, mobileNumber, status, dishes };
 
   orders.push(newOrder);
   res.status(200).json({ data: newOrder });
