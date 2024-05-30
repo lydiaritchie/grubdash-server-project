@@ -5,4 +5,4 @@ Backend server project written in JavaScript that handles dishes and orders of a
 - Orders handled with orders.router and orders.controller
 - Dishes handled with dishes.router and dishes.controller
 
-  Testing done with Jest.
+Testing done with Jest.
