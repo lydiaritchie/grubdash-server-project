@@ -51,7 +51,9 @@ function dishesPropertyIsValid(req, res, next){
 //Checks that status is valid -> pending, preparing, out-for-delivery, delivered
 function statusPropertyIsValid(req, res, next){
     const statusProperty = req.body.data["status"];
-    if(statusProperty === "pending" || "preparing" || "out-for-delivery" || "delivered"){
+    const statusOptions = [ "pending", "preparing", "out-for-delivery", "delivered"]
+    console.log(statusProperty);
+    if(statusOptions.includes(statusProperty)){
         return next();
     }
     next({
@@ -81,9 +83,7 @@ function dishesArrayisValid(req, res, next){
 function idMatch(req, res, next){
     const { data } = req.body;
     const { orderId } = req.params;
-    
     //if the orderId exsits, then it should do this: 
-
         if(data.id && data.id !== orderId){
             next({
                 status: 400,
@@ -110,12 +110,12 @@ function read(req, res, next) {
 
 //PUT "/orders/:orderId"
 function update(req, res, next){
-    const { orderId } = req.params;
+  const { orderId } = req.params;
   const { deliverTo, mobileNumber, status, dishes } = req.body.data;
-  const newOrder = { id: nextId(), deliverTo, mobileNumber, status, dishes };
+  const newOrder = { id: orderId, deliverTo, mobileNumber, status, dishes };
 
   orders.push(newOrder);
-  res.status(201).json({ data: newOrder });
+  res.status(200).json({ data: newOrder });
 }
 
 //DELETE "/orders/:orderId"
