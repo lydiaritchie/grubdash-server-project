@@ -127,7 +127,6 @@ function destroy(req, res, next){
         });
     }
     const index = orders.findIndex((currentOrder) => currentOrder.id === order.id);
-    console.log("index: " + index);
     orders.splice(index, 1);
     res.sendStatus(204);
 }
