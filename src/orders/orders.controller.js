@@ -51,8 +51,7 @@ function dishesPropertyIsValid(req, res, next){
 //Checks that status is valid -> pending, preparing, out-for-delivery, delivered
 function statusPropertyIsValid(req, res, next){
     const statusProperty = req.body.data["status"];
-    const statusOptions = [ "pending", "preparing", "out-for-delivery", "delivered"]
-    console.log(statusProperty);
+    const statusOptions = [ "pending", "preparing", "out-for-delivery", "delivered"];
     if(statusOptions.includes(statusProperty)){
         return next();
     }
@@ -119,6 +118,20 @@ function update(req, res, next){
 }
 
 //DELETE "/orders/:orderId"
+function destroy(req, res, next){
+    const order = res.locals.order;
+
+    if(order.status !== "pending"){
+        return next({
+            status: 400,
+            message: `Cannot deleted if the status is not pending.`
+        });
+    }
+    const index = orders.findIndex((currentOrder) => currentOrder.id === order.id);
+    console.log("index: " + index);
+    orders.splice(index, 1);
+    res.sendStatus(204);
+}
 
 //GET "/orders"
 function list(req, res, next) {
@@ -147,5 +160,9 @@ module.exports = {
     dishesArrayisValid,
     statusPropertyIsValid,
     update
+  ],
+  delete: [
+    orderExists,
+    destroy
   ]
 };
